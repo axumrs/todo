@@ -630,6 +630,7 @@ dependencies = [
  "config",
  "dotenv",
  "serde 1.0.130",
+ "serde_json",
  "tokio",
 ]
 
