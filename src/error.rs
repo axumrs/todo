@@ -65,6 +65,17 @@ impl AppError {
     }
 }
 
+impl From<deadpool_postgres::PoolError> for AppError {
+    fn from(err: deadpool_postgres::PoolError) -> Self {
+        Self::db_error(err)
+    }
+}
+impl From<tokio_postgres::Error> for AppError {
+    fn from(err: tokio_postgres::Error) -> Self {
+        Self::db_error(err)
+    }
+}
+
 /// 实现 IntoResponse
 impl IntoResponse for AppError {
     type Body = Full<Bytes>;

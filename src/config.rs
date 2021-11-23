@@ -12,6 +12,7 @@ pub struct WebConfig {
 #[derive(Deserialize)]
 pub struct Config {
     pub web: WebConfig,
+    pub pg: deadpool_postgres::Config,
 }
 
 impl Config {
