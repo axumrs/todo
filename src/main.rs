@@ -2,7 +2,11 @@ use axum::{routing::get, Router};
 use dotenv::dotenv;
 
 mod config;
+mod error;
 mod handler;
+
+/// 定义自己的 Result
+type Result<T> = std::result::Result<T, error::AppError>;
 
 #[tokio::main]
 async fn main() {
