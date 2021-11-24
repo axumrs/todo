@@ -5,18 +5,17 @@ use axum::{
 
 use crate::{
     db::todo_list,
-    error::AppError,
     form,
     model::{AppState, TodoList, TodoListID},
-    Response, Result,
+    Response,
 };
 
-use super::{get_client, log_error};
+use super::{get_client, log_error, HandlerResult};
 
 pub async fn create(
     Extension(state): Extension<AppState>,
     Json(payload): Json<form::CreateTodoList>,
-) -> Result<Json<Response<TodoListID>>> {
+) -> HandlerResult<TodoListID> {
     let handler_name = "todo_list_create";
     let client = get_client(&state, handler_name).await?;
     let result = todo_list::create(&client, payload)
@@ -25,7 +24,7 @@ pub async fn create(
     Ok(Json(Response::ok(result)))
 }
 
-pub async fn all(Extension(state): Extension<AppState>) -> Result<Json<Response<Vec<TodoList>>>> {
+pub async fn all(Extension(state): Extension<AppState>) -> HandlerResult<Vec<TodoList>> {
     let handler_name = "todo_list_all";
     let client = get_client(&state, handler_name).await?;
     let result = todo_list::all(&client)
@@ -37,7 +36,7 @@ pub async fn all(Extension(state): Extension<AppState>) -> Result<Json<Response<
 pub async fn find(
     Extension(state): Extension<AppState>,
     Path(list_id): Path<i32>,
-) -> Result<Json<Response<TodoList>>> {
+) -> HandlerResult<TodoList> {
     let handler_name = "todo_list_find";
     let client = get_client(&state, handler_name).await?;
     let result = todo_list::find(&client, list_id)
@@ -48,7 +47,7 @@ pub async fn find(
 pub async fn delete(
     Extension(state): Extension<AppState>,
     Path(list_id): Path<i32>,
-) -> Result<Json<Response<bool>>> {
+) -> HandlerResult<bool> {
     let handler_name = "todo_list_delete";
     let mut client = get_client(&state, handler_name).await?;
     let result = todo_list::delete(&mut client, list_id)
@@ -59,7 +58,7 @@ pub async fn delete(
 pub async fn update(
     Extension(state): Extension<AppState>,
     Json(payload): Json<form::UpdateTodoList>,
-) -> Result<Json<Response<bool>>> {
+) -> HandlerResult<bool> {
     let handler_name = "todo_list_update";
     let client = get_client(&state, handler_name).await?;
     let result = todo_list::update(&client, payload)

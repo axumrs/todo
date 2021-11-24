@@ -11,9 +11,8 @@ use axum::{
 use crate::Response;
 
 /// 错误的类型
+#[derive(Debug)]
 pub enum AppErrorType {
-    /// 无错误
-    OK,
     /// 数据库错误
     DbError,
     /// 未找到
@@ -35,7 +34,6 @@ impl AppError {
     /// 错误代码
     fn code(&self) -> i32 {
         match self.error_type {
-            AppErrorType::OK => 0,
             AppErrorType::DbError => 1,
             AppErrorType::NotFound => 2,
         }
