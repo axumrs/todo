@@ -17,6 +17,12 @@ pub use response::Response;
 
 #[tokio::main]
 async fn main() {
+    // 初始化日志
+    if std::env::var_os("RUST_LOG").is_none() {
+        std::env::set_var("RUST_LOG", "todo=debug");
+    }
+    tracing_subscriber::fmt::init();
+
     // 解析 .env 文件
     dotenv().ok();
 
@@ -39,6 +45,8 @@ async fn main() {
                 .delete(handler::todo_list::delete),
         )
         .layer(AddExtensionLayer::new(AppState { pool }));
+
+    tracing::info!("服务器监听于：{}", &cfg.web.addr);
 
     // 绑定到配置文件设置的地址
     axum::Server::bind(&cfg.web.addr.parse().unwrap())
