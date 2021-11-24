@@ -21,6 +21,7 @@ pub enum AppErrorType {
 }
 
 /// 应用错误
+#[derive(Debug)]
 pub struct AppError {
     /// 错误信息
     pub message: Option<String>,
@@ -64,7 +65,11 @@ impl AppError {
         Self::from_str("不存在的记录", AppErrorType::NotFound)
     }
 }
-
+impl ToString for AppError {
+    fn to_string(&self) -> String {
+        format!("{:?}", self)
+    }
+}
 impl From<deadpool_postgres::PoolError> for AppError {
     fn from(err: deadpool_postgres::PoolError) -> Self {
         Self::db_error(err)
