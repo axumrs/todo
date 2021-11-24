@@ -3,6 +3,7 @@ use tokio_postgres::{types::ToSql, GenericClient, Statement};
 
 use crate::{error::AppError, Result};
 
+pub mod todo_item;
 pub mod todo_list;
 
 async fn get_stmt<C: GenericClient>(client: &C, sql: &str) -> Result<Statement> {

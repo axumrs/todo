@@ -3,6 +3,7 @@ use deadpool_postgres::Client;
 
 use crate::{error::AppError, model::AppState, Response, Result};
 
+pub mod todo_item;
 pub mod todo_list;
 pub mod usage;
 

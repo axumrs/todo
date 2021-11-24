@@ -22,3 +22,20 @@ pub struct TodoList {
 pub struct TodoListID {
     pub id: i32,
 }
+
+/// 待办事项模型
+#[derive(PostgresMapper, Serialize)]
+#[pg_mapper(table = "todo_item")]
+pub struct TodoItem {
+    pub id: i32,
+    pub title: String,
+    pub checked: bool,
+    pub list_id: i32,
+}
+
+/// 待办事项新ID模型
+#[derive(PostgresMapper, Serialize)]
+#[pg_mapper(table = "todo_item")]
+pub struct TodoItemID {
+    pub id: i32,
+}

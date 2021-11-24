@@ -39,10 +39,20 @@ async fn main() {
             get(handler::todo_list::all).post(handler::todo_list::create),
         )
         .route(
-            "/todo/:id",
+            "/todo/:list_id",
             get(handler::todo_list::find)
                 .put(handler::todo_list::update)
                 .delete(handler::todo_list::delete),
+        )
+        .route(
+            "/todo/:list_id/items",
+            get(handler::todo_item::all).post(handler::todo_item::create),
+        )
+        .route(
+            "/todo/:list_id/items/:item_id",
+            get(handler::todo_item::find)
+                .put(handler::todo_item::check)
+                .delete(handler::todo_item::delete),
         )
         .layer(AddExtensionLayer::new(AppState { pool }));
 
