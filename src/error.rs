@@ -1,6 +1,6 @@
 //! 自定义错误
 
-use std::convert::Infallible;
+use std::{convert::Infallible, fmt::Display};
 
 use axum::{
     body::{Bytes, Full},
@@ -63,9 +63,10 @@ impl AppError {
         Self::from_str("不存在的记录", AppErrorType::NotFound)
     }
 }
-impl ToString for AppError {
-    fn to_string(&self) -> String {
-        format!("{:?}", self)
+impl std::error::Error for AppError {}
+impl Display for AppError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
     }
 }
 impl From<deadpool_postgres::PoolError> for AppError {
